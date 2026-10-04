@@ -1,0 +1,48 @@
+CELLULA – ZELLBIOLOGIE IN 3D v1
+===============================
+
+Vollständige Webanwendung mit Tier- und Pflanzenzelle, fünf animierten
+Abläufen und fünf echten Molekülen aus der Protein Data Bank, inklusive
+Quellcode und lokal mitgelieferter three.js-Bibliothek. Keine API-Schlüssel
+und keine Administratorrechte nötig.
+
+AUF DEM HANDY
+Am iPhone in Safari: Teilen → Zum Home-Bildschirm.
+
+LOKAL AUF WINDOWS
+1. ZIP vollständig entpacken.
+2. Voraussetzung: Python 3 ist installiert und über „py“ erreichbar.
+3. START_WINDOWS.cmd doppelklicken. Der Browser öffnet sich automatisch.
+4. Das Konsolenfenster während der Nutzung offen lassen. Strg+C beendet
+   den lokalen Server. Er ist nur auf diesem Computer erreichbar.
+   Falls „py“ fehlt, aber „python“ funktioniert: python start.py ausführen.
+
+LOKAL AUF LINUX / macOS
+Im entpackten CELLULA-Ordner ausführen:
+    python3 start.py
+Benötigt vorhandenes Python 3; keine zusätzlichen Python-Pakete.
+
+WICHTIG
+index.html nicht direkt per Doppelklick öffnen. JavaScript-Module und
+Moleküldaten benötigen einen HTTP-Server. Für eigenes Hosting: „dist“ als
+Website-Wurzel verwenden, nicht als Unterverzeichnis. Für Offline-Speicherung
+außerhalb von localhost ist HTTPS erforderlich.
+
+OFFLINE
+Beim lokalen Start werden alle Dateien vom Computer bereitgestellt. Externe
+Quellenlinks benötigen Internet. „Für offline speichern“ verwendet den
+Browserspeicher; dieser kann vom Browser bei Platzmangel gelöscht werden.
+
+UMFANG UND GRENZEN
+- Zellmodelle und Animationen sind schematisch und nicht maßstäblich.
+- Moleküle: echte Atomkoordinaten (PDB 1BNA, 4HHB, 3I40, 1IGT, 6OQR).
+- Texte sind KI-unterstützt erstellt und nicht redaktionell abgenommen.
+- Browser benötigt WebGL2, JavaScript-Module/Importmaps und
+  DecompressionStream. Ein aktueller Browser ist empfehlenswert.
+
+LIZENZEN
+Code und eigene Modelle: MIT (LICENSE).
+Texte auf Grundlage von OpenStax Biology 2e: CC BY 4.0.
+Moleküldaten: wwPDB, CC0 1.0 (dist/assets/LICENSE.txt).
+three.js: MIT (dist/vendor/LICENSE).
+Einzelheiten: NOTICE.md und README.md.

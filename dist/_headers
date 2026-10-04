@@ -1,0 +1,17 @@
+# Cloudflare Pages / Workers Static Assets: Sicherheits- und Cache-Header
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-y0joblgLTLFGhbj/xXhGS1SyGmxly/oZpyENyx9LBXI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+
+# 3D-Daten und Bibliothek ändern sich selten: eine Woche zwischenspeichern
+/assets/*
+  Cache-Control: public, max-age=604800
+/vendor/*
+  Cache-Control: public, max-age=604800
+
+# Service Worker immer frisch laden, damit Updates sofort ankommen
+/sw.js
+  Cache-Control: no-cache

@@ -1,0 +1,31 @@
+name: Product screenshots
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/capture_gallery.cjs', '.github/workflows/gallery.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser tools
+        run: npm install --no-save --package-lock=false playwright@1.62.1
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Capture the running atlas
+        run: |
+          python3 -m http.server 8765 --directory dist > /tmp/cellula-gallery-http.log 2>&1 &
+          node scripts/capture_gallery.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CELLULA-product-gallery
+          path: gallery-results/
+          if-no-files-found: ignore

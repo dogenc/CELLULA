@@ -1,0 +1,17 @@
+CELLULA – Moleküldaten (dist/assets/molecules.json, dist/assets/molecules/*.bin.gz)
+
+Quelle: Worldwide Protein Data Bank (wwPDB), abgerufen über RCSB PDB (https://www.rcsb.org).
+Lizenz: Die Daten der PDB-Archive sind gemeinfrei – Creative Commons CC0 1.0 Universal
+        (https://creativecommons.org/publicdomain/zero/1.0/). Siehe https://www.wwpdb.org/about/usage-policies
+
+Einträge und Original-Veröffentlichungen:
+  1BNA  Drew, H.R. et al. (1981) PNAS 78, 2179–2183. doi:10.1073/pnas.78.4.2179
+  4HHB  Fermi, G. et al. (1984) J. Mol. Biol. 175, 159–174. doi:10.1016/0022-2836(84)90472-8
+  3I40  Timofeev, V.I. et al. (2010) Acta Cryst. F66, 259–263. doi:10.1107/S1744309110000461
+  1IGT  Harris, L.J. et al. (1997) Biochemistry 36, 1581–1597. doi:10.1021/bi962514+
+  6OQR  Sobti, M. et al. (2020) Nat. Commun. 11, 2615. doi:10.1038/s41467-020-16387-2
+
+Änderungen: nur erstes Modell, Wasser, Wasserstoff und alternative Positionen (außer A) entfernt,
+Koordinaten zentriert und entlang der Hauptachsen gedreht, auf 0,05 Å gerundet, binär gepackt, gzip.
+Reproduzierbar mit: node scripts/prepare_molecules.mjs
+Die Nennung der Quellen erfolgt als gute wissenschaftliche Praxis; CC0 verlangt sie nicht.

@@ -1,0 +1,113 @@
+name: Desktop-Apps bauen
+
+# Baut die Desktop-Versionen auf echten Windows- und macOS-Rechnern von GitHub.
+# - Manuell: Actions → "Desktop-Apps bauen" → "Run workflow".
+#   Mit Versionsnummer (z. B. 1.0.0) entsteht zusätzlich ein Release mit Tag v1.0.0,
+#   ohne Versionsnummer liegen die Dateien nur unter "Artifacts".
+# - Oder ein Tag wie v1.0.0 pushen → Installer erscheinen unter "Releases".
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versionsnummer für das Release (z. B. 1.0.0) – leer lassen für nur Artifacts'
+        required: false
+        default: ''
+      remove_release:
+        description: 'Optional: älteres Release samt Tag entfernen (z. B. v1.0.0)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    uses: ./.github/workflows/atlas-quality.yml
+    permissions:
+      contents: read
+  build:
+    needs: quality
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+      - name: Windows-Installer und portable EXE
+        if: runner.os == 'Windows'
+        run: npx electron-builder --win --publish never
+      - name: macOS-DMG (Intel + Apple Silicon)
+        if: runner.os == 'macOS'
+        run: npx electron-builder --mac --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ runner.os }}
+          path: |
+            desktop/release/*.exe
+            desktop/release/*.dmg
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || inputs.version != ''
+    runs-on: ubuntu-latest
+    steps:
+      # Nur die Installer einsammeln, nicht die Bilder der Qualitätsprüfung.
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          pattern: installer-*
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', inputs.version) }}
+          target_commitish: ${{ github.sha }}
+          name: CELLULA Zellbiologie ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', inputs.version) }}
+          files: out/*
+          body: |
+            ## CELLULA Zellbiologie – Desktop
+
+            | System | Datei |
+            |---|---|
+            | **Windows** (Installation) | `CELLULA-*-Windows-Setup.exe` |
+            | **Windows** (ohne Installation) | `CELLULA-*-Windows-portable.exe` |
+            | **macOS** (Intel & Apple Silicon) | `CELLULA-*-macOS.dmg` |
+
+            Läuft komplett offline. Die Apps sind nicht kostenpflichtig signiert, deshalb erscheint beim ersten Start eine Warnung:
+            - **Windows:** „Der Computer wurde durch Windows geschützt“ → *Weitere Informationen* → *Trotzdem ausführen*
+            - **macOS:** Programm in „Programme“ ziehen, dann *Rechtsklick → Öffnen* (oder Systemeinstellungen → Datenschutz & Sicherheit → *Dennoch öffnen*)
+
+            Lernwerkzeug für Zellbiologie – siehe RECHTLICHES.md. Code: MIT · Moleküldaten: wwPDB, CC0 1.0 · Texte nach OpenStax Biology 2e, CC BY 4.0.
+
+      # Das Release enthält nur Installer: alle anderen Dateien entfernen.
+      - name: Fremde Dateien aus dem Release entfernen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', inputs.version) }}
+        run: |
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets -q '.assets[].name' \
+            | { grep -v -E '\.(exe|dmg)$' || true; } \
+            | while read -r name; do gh release delete-asset "$TAG" "$name" --yes --repo "$GITHUB_REPOSITORY"; done
+
+      # Ersetzt eine ältere Version: Release und zugehörigen Tag löschen.
+      - name: Älteres Release entfernen
+        if: inputs.remove_release != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OLD_RELEASE: ${{ inputs.remove_release }}
+        run: gh release delete "$OLD_RELEASE" --cleanup-tag --yes --repo "$GITHUB_REPOSITORY"
+

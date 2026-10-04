@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="CELLULA – Open-Source Zellbiologie in 3D">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#132634"/><stop offset=".55" stop-color="#203d50"/><stop offset="1" stop-color="#345d75"/></linearGradient>
+    <radialGradient id="glow" cx=".8" cy=".45" r=".5"><stop offset="0" stop-color="#b6dbea" stop-opacity=".28"/><stop offset="1" stop-color="#b6dbea" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".05"/></pattern>
+  </defs>
+  <rect width="1280" height="360" rx="22" fill="url(#bg)"/>
+  <rect width="1280" height="360" rx="22" fill="url(#grid)"/>
+  <rect width="1280" height="360" rx="22" fill="url(#glow)"/>
+  <!-- schematische Zelle mit Organellen -->
+  <g transform="translate(1040 180)" fill="none" stroke="#d3eaf5" stroke-opacity=".42" stroke-width="2.4" stroke-linecap="round">
+    <ellipse rx="150" ry="128"/>
+    <circle cx="-22" cy="-10" r="44"/>
+    <circle cx="-14" cy="-18" r="13" fill="#d3eaf5" fill-opacity=".25"/>
+    <path d="M-80 -30 C-96 -60 -60 -92 -20 -78 M-88 -6 C-112 -50 -64 -108 -8 -92"/>
+    <g transform="translate(70 -54) rotate(-25)"><rect x="-34" y="-14" width="68" height="28" rx="14"/><path d="M-22 -14 V6 M-10 14 V-6 M2 -14 V6 M14 14 V-6"/></g>
+    <g transform="translate(60 62) rotate(18)"><path d="M-36 0 C-20 -14 20 -14 36 0 M-30 10 C-14 -2 14 -2 30 10 M-24 20 C-10 10 10 10 24 20"/></g>
+    <circle cx="-86" cy="64" r="12"/><circle cx="104" cy="10" r="6" fill="#d3eaf5" fill-opacity=".4"/>
+    <circle cx="-60" cy="88" r="3" fill="#d3eaf5"/><circle cx="20" cy="96" r="3" fill="#d3eaf5"/><circle cx="110" cy="-40" r="3" fill="#d3eaf5"/><circle cx="-118" cy="10" r="3" fill="#d3eaf5"/>
+  </g>
+  <!-- DNA-Linie -->
+  <path d="M0 326 C40 306 80 346 120 326 S200 306 240 326 S320 346 360 326 S440 306 480 326 S560 346 600 326 S680 306 720 326 S800 346 840 326" fill="none" stroke="#8fc8e5" stroke-opacity=".5" stroke-width="2.5"/>
+  <path d="M0 326 C40 346 80 306 120 326 S200 346 240 326 S320 306 360 326 S440 346 480 326 S560 306 600 326 S680 346 720 326 S800 306 840 326" fill="none" stroke="#f2c96b" stroke-opacity=".45" stroke-width="2.5"/>
+  <g transform="translate(72 74)">
+    <rect width="92" height="92" rx="26" fill="#ffffff" fill-opacity=".1" stroke="#ffffff" stroke-opacity=".25"/>
+    <circle cx="46" cy="46" r="27" fill="none" stroke="#fff" stroke-width="5"/>
+    <circle cx="53" cy="38" r="9" fill="#b6dbea"/>
+  </g>
+  <text x="196" y="138" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="72" font-weight="700" letter-spacing="18" fill="#ffffff">CELLULA</text>
+  <text x="200" y="172" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="17" letter-spacing="5" fill="#b3d6e7">ZELLEN · PROZESSE · MOLEKÜLE</text>
+  <text x="74" y="232" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="30" fill="#e6f3fa">Das Leben verstehen. Vom Organell zum Protein.</text>
+  <g font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" font-weight="600" fill="#e8f5fb">
+    <g transform="translate(74 262)"><rect width="128" height="34" rx="17" fill="#ffffff" fill-opacity=".12"/><text x="64" y="22" text-anchor="middle">2 Zelltypen</text></g>
+    <g transform="translate(214 262)"><rect width="140" height="34" rx="17" fill="#ffffff" fill-opacity=".12"/><text x="70" y="22" text-anchor="middle">5 Abläufe</text></g>
+    <g transform="translate(366 262)"><rect width="200" height="34" rx="17" fill="#ffffff" fill-opacity=".12"/><text x="100" y="22" text-anchor="middle">5 echte PDB-Moleküle</text></g>
+    <g transform="translate(578 262)"><rect width="150" height="34" rx="17" fill="#ffffff" fill-opacity=".12"/><text x="75" y="22" text-anchor="middle">offline · PWA</text></g>
+  </g>
+</svg>
+

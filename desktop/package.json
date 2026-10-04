@@ -1,0 +1,113 @@
+{
+  "name": "cellula",
+  "productName": "CELLULA Zellbiologie",
+  "version": "2.1.0",
+  "description": "CELLULA – interaktiver Zellbiologie-Atlas mit 3D-Studio und Protein-Cartoons",
+  "author": "DGKN@Labs",
+  "license": "MIT",
+  "homepage": "https://github.com/dogenc/cellula",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:linux": "electron-builder --linux --publish never"
+  },
+  "build": {
+    "appId": "de.dgknlabs.cellula",
+    "productName": "CELLULA Zellbiologie",
+    "copyright": "© 2026 DGKN Labs · Code MIT · Moleküldaten wwPDB CC0 · Texte nach OpenStax CC BY 4.0",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist",
+        "to": "app"
+      },
+      {
+        "from": "../LICENSE",
+        "to": "LICENSE.txt"
+      },
+      {
+        "from": "../NOTICE.md",
+        "to": "NOTICE.md"
+      },
+      {
+        "from": "../RECHTLICHES.md",
+        "to": "RECHTLICHES.md"
+      }
+    ],
+    "artifactName": "CELLULA-${version}-${os}-${arch}.${ext}",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "portable": {
+      "artifactName": "CELLULA-${version}-Windows-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CELLULA Zellbiologie",
+      "artifactName": "CELLULA-${version}-Windows-Setup.exe"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.education",
+      "icon": "build/icon.png",
+      "identity": "-",
+      "artifactName": "CELLULA-${version}-macOS.${ext}",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "title": "CELLULA Zellbiologie"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Education",
+      "icon": "build/icon.png",
+      "artifactName": "CELLULA-${version}-Linux.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dogenc/cellula.git"
+  }
+}

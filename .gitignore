@@ -1,0 +1,16 @@
+# Abhängigkeiten und Build-Ergebnisse
+node_modules/
+desktop/release/
+# Betriebssystem / Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
+
+# Zwischenspeicher für PDB-Originaldateien (scripts/prepare_molecules.mjs)
+scripts/.cache-pdb/
+
+# Private Instagram-/Werbematerial gehört nicht ins Repository
+docs/instagram/

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="120" viewBox="0 0 1280 120" role="img" aria-label="Omnis cellula e cellula – Das Leben verstehen">
+  <defs><linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="#203d50"/><stop offset="1" stop-color="#345d75"/></linearGradient></defs>
+  <rect width="1280" height="120" rx="18" fill="url(#f)"/>
+  <path d="M60 62 C90 47 120 77 150 62 S210 47 240 62 S300 77 330 62 M950 62 C980 47 1010 77 1040 62 S1100 47 1130 62 S1190 77 1220 62" fill="none" stroke="#8fc8e5" stroke-opacity=".45" stroke-width="2"/>
+  <text x="640" y="56" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="30" fill="#ffffff">Omnis cellula e cellula</text>
+  <text x="640" y="86" text-anchor="middle" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" letter-spacing="6" fill="#b3d6e7">SCHICHT FÜR SCHICHT · DGKN@LABS</text>
+</svg>
+

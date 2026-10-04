@@ -1,0 +1,58 @@
+name: Atlas quality
+on:
+  push:
+    branches: [main]
+    paths: ['dist/**', 'tests/**', 'desktop/**', '.github/workflows/atlas-quality.yml']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install test tools
+        run: npm install --no-save --package-lock=false playwright@1.62.1 @napi-rs/canvas@0.1.80
+      - name: Validate JavaScript
+        run: |
+          for file in dist/*.js; do node --input-type=module --check < "$file"; done
+      - name: Validate model geometry and labels
+        run: node --experimental-loader ./tests/three-loader.mjs tests/models.mjs
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Exercise atlas and capture screenshots
+        run: |
+          python3 -m http.server 8765 --directory dist > /tmp/cellula-http.log 2>&1 &
+          node tests/browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CELLULA-atlas-screenshots
+          path: test-results/
+          if-no-files-found: ignore
+  windows-runtime:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install desktop dependencies
+        run: npm ci --prefix desktop
+      - name: Install test tools
+        run: npm install --no-save --package-lock=false playwright@1.62.1
+      - name: Test Windows desktop without building installers
+        run: node tests/desktop.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CELLULA-windows-runtime
+          path: test-results/
+          if-no-files-found: ignore

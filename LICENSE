@@ -1,0 +1,46 @@
+MIT License
+
+Copyright (c) 2026 DGKN Labs (github.com/dogenc) and CELLULA contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+
+SCOPE / GELTUNGSBEREICH
+
+This MIT License covers the original source code and the original texts of
+CELLULA (e.g. dist/*.js, dist/*.html, dist/*.css, scripts/, desktop/,
+start.py, docs/), including the procedurally generated cell and process models.
+
+The explanatory texts in dist/knowledge.js are original German summaries based
+on OpenStax "Biology 2e" (Clark, Douglas, Choi; Rice University), licensed
+under CC BY 4.0. Anyone redistributing them must keep that attribution
+(see NOTICE.md).
+
+It does NOT cover the following third-party components, which remain under
+their own terms (see NOTICE.md):
+
+  * dist/assets/molecules*  – atomic coordinates from the Worldwide Protein
+                     Data Bank (wwPDB), dedicated to the public domain under
+                     CC0 1.0 (dist/assets/LICENSE.txt)
+  * dist/vendor/*  – three.js, (c) three.js authors, MIT License
+                     (dist/vendor/LICENSE)
+
+CELLULA is an educational tool. See RECHTLICHES.md for the intended purpose,
+disclaimer and privacy information.

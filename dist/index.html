@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#edf1f4">
+<meta name="description" content="CELLULA: Interaktiver 3D-Zellbiologie-Atlas auf Deutsch – Tier- und Pflanzenzelle, Mitose, Meiose, Proteinbiosynthese, Zellatmung, Fotosynthese und echte Moleküle aus der Protein Data Bank.">
+<title>CELLULA — Zellbiologie in 3D</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js"}}</script>
+</head>
+<body>
+<header>
+  <a class="brand" href="/" aria-label="CELLULA Startseite"><span class="brand-mark" aria-hidden="true"><i></i></span><span><strong>CELLULA</strong><small>ZELLBIOLOGIE ATLAS · DGKN@LABS</small></span></a>
+  <nav class="modes" aria-label="Bereiche">
+    <button data-mode="zelle" class="active">Zellen</button>
+    <button data-mode="ablauf">Abläufe</button>
+    <button data-mode="molekuel">Moleküle</button>
+  </nav>
+  <div class="header-latin"><i>Omnis cellula e cellula</i><span>Das Leben. Schicht für Schicht.</span></div>
+  <div class="header-actions"><span class="edition">ATLAS <b>02</b></span><button id="about" class="quiet">Quellen &amp; Hinweise</button></div>
+</header>
+<main>
+  <aside class="side panel" id="side-panel">
+    <div class="panel-head"><span class="eyebrow" id="side-eyebrow">EXPLORER</span><button class="mobile-only icon-button" id="close-side" aria-label="Menü schließen">×</button></div>
+
+    <section data-for="zelle">
+      <h2>Zellen</h2>
+      <p class="muted small">Strukturen entdecken. Zusammenhänge verstehen.</p>
+      <div class="segmented" id="cell-kind"><button data-cell="tier" class="active">Tierzelle</button><button data-cell="pflanze">Pflanzenzelle</button></div>
+      <div id="organelle-list" class="item-list"></div>
+      <div class="side-section">
+        <span class="eyebrow">DARSTELLUNG</span>
+        <label class="slider-row" for="open"><span>Membran öffnen</span><output id="open-value">70 %</output></label>
+        <input type="range" id="open" min="0" max="100" value="70">
+        <label class="slider-row" for="explode"><span>Explosionsansicht</span><output id="explode-value">0 %</output></label>
+        <input type="range" id="explode" min="0" max="100" value="0">
+        <label class="toggle-row"><span>Beschriftungen</span><input id="labels" type="checkbox" role="switch" checked></label>
+        <label class="toggle-row"><span>Auswahl isolieren</span><input id="isolate" type="checkbox" role="switch"></label>
+      </div>
+      <div class="side-section">
+        <span class="eyebrow">LERNEN</span>
+        <button id="quiz" class="secondary tool-btn" aria-pressed="false">◎ Organellen-Quiz</button>
+        <span class="small muted" id="quiz-stand"></span>
+      </div>
+    </section>
+
+    <section data-for="ablauf" hidden>
+      <h2>Abläufe</h2>
+      <p class="muted small">Fünf Prozesse. Jeder Schritt nachvollziehbar.</p>
+      <div id="process-list" class="item-list cards"></div>
+      <div class="side-section">
+        <span class="eyebrow">SCHRITTE</span>
+        <ol id="step-list" class="step-list"></ol>
+        <label class="slider-row" for="speed"><span>Tempo</span><output id="speed-value">1×</output></label>
+        <input type="range" id="speed" min="25" max="200" value="100" step="25">
+        <label class="toggle-row"><span>Kamera folgt</span><input id="follow" type="checkbox" role="switch" checked></label>
+      </div>
+    </section>
+
+    <section data-for="molekuel" hidden>
+      <h2>Moleküle</h2>
+      <p class="muted small">Experimentelle Strukturdaten. Interaktiv erkunden.</p>
+      <div id="molecule-list" class="item-list cards"></div>
+      <div class="side-section">
+        <span class="eyebrow">DARSTELLUNG</span>
+        <div class="segmented mini" id="mol-mode"><button data-mmode="kalotte" class="active" title="Jedes Atom als Kugel in Van-der-Waals-Größe">Kalotten</button><button data-mmode="cartoon" title="Helixbänder und Faltblattpfeile nach den PDB-Strukturangaben">Cartoon</button><button data-mmode="band" title="Verlauf der Proteinkette">Rückgrat</button><button data-mmode="stab" title="Atome und Bindungen">Kugel-Stab</button></div>
+        <span class="eyebrow">FÄRBUNG</span>
+        <div class="segmented mini" id="mol-color"></div>
+        <div id="mol-legend" class="legend"></div>
+        <label class="toggle-row" id="rotor-row" hidden><span>Rotor drehen</span><input id="rotor" type="checkbox" role="switch" checked></label>
+      </div>
+    </section>
+
+    <div class="side-section studio-tools">
+      <span class="eyebrow">3D-STUDIO</span>
+      <div class="segmented mini" id="camera-presets" aria-label="Kameraansicht">
+        <button data-view="perspective" class="active">3D</button><button data-view="front">Vorne</button><button data-view="top">Oben</button><button data-view="side">Seite</button>
+      </div>
+      <button id="focus-part" class="secondary tool-btn" disabled>◎ Auswahl fokussieren</button>
+      <label class="toggle-row"><span>Dunkler Modellhintergrund</span><input id="studio-dark" type="checkbox" role="switch"></label>
+      <label class="slider-row" for="quality"><span>Grafikqualität</span><select id="quality"><option value="auto">Automatisch</option><option value="low">Sparsam</option><option value="high">Hoch</option></select></label>
+      <p id="quality-status" class="small muted" aria-live="polite"></p>
+      <span class="eyebrow tool-label">SCHNITTEBENE</span>
+      <div class="segmented mini" id="clip-axis"><button data-axis="off" class="active">Aus</button><button data-axis="x">Längs</button><button data-axis="y">Quer</button><button data-axis="z">Frontal</button></div>
+      <div id="clip-controls" hidden>
+        <label class="slider-row" for="clip-position"><span>Schnittposition</span><output id="clip-value">50 %</output></label>
+        <input type="range" id="clip-position" min="0" max="100" value="50">
+        <label class="toggle-row"><span>Andere Hälfte zeigen</span><input id="clip-flip" type="checkbox" role="switch"></label>
+      </div>
+      <p class="small muted">Schematische Modelle sind vereinfacht. Molekülkoordinaten stammen aus der PDB.</p>
+    </div>
+    <div class="side-bottom">
+      <span class="small muted" id="data-note">OpenStax Biology 2e · RCSB PDB</span>
+      <button id="offline" class="quiet offline">↓ Für offline speichern</button>
+      <span id="offline-status" class="small muted" aria-live="polite"></span>
+    </div>
+  </aside>
+
+  <section class="viewport" aria-label="Dreidimensionale Ansicht">
+    <div class="canvas-top">
+      <button id="open-side" class="mobile-only secondary">☰ Menü</button>
+      <div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Struktur oder Prozess suchen …" aria-label="Organell, Ablauf oder Molekül suchen" autocomplete="off"><kbd>/</kbd><div id="results" class="results" hidden></div></div>
+    </div>
+    <div class="view-heading"><span class="live-tag"><i></i> INTERAKTIVER ATLAS</span><span class="eyebrow" id="view-eyebrow">ZELLBIOLOGIE</span><span id="view-label">Tierzelle</span></div>
+    <div id="scene">
+      <svg id="label-lines" aria-hidden="true"></svg><div id="labels-layer"></div>
+      <div id="load-state" role="status"><div class="loader"></div><b id="load-title">Dein Blick ins Innere.</b><span id="load-detail">Die interaktive 3D-Ansicht wird vorbereitet …</span></div>
+    </div>
+    <div class="studio-status"><span id="model-status">SCHEMATISCHES MODELL</span><span>3D / ECHTZEIT</span></div>
+    <div class="orientation">
+      <button id="zoom-in" aria-label="Vergrößern">＋</button>
+      <button id="zoom-out" aria-label="Verkleinern">−</button>
+      <button id="reset" aria-label="Ansicht zurücksetzen" title="Zurücksetzen (R)">↺</button>
+    </div>
+    <div id="player" class="player panel" hidden>
+      <div class="player-row">
+        <button id="p-prev" class="icon-button" aria-label="Vorheriger Schritt">⏮</button>
+        <button id="p-play" class="play" aria-label="Abspielen">▶</button>
+        <button id="p-next" class="icon-button" aria-label="Nächster Schritt">⏭</button>
+        <div class="player-info"><b id="p-step">Schritt 1</b><span id="p-count" class="muted small"></span></div>
+      </div>
+      <input type="range" id="p-time" min="0" max="1000" value="0" aria-label="Zeitleiste">
+    </div>
+    <div id="quiz-panel" class="quiz panel" hidden>
+      <div class="quiz-head"><span class="eyebrow">LERNMODUS · QUIZ</span><span id="quiz-score" class="tiny-tag">0 / 0</span><button id="quiz-close" class="icon-button" aria-label="Quiz beenden">×</button></div>
+      <div class="segmented mini"><button data-qmode="name" class="active">Benennen</button><button data-qmode="find">Finden</button></div>
+      <b id="quiz-question">Welches Organell ist markiert?</b>
+      <div id="quiz-options" class="quiz-options"></div>
+      <div id="quiz-feedback" class="small" aria-live="polite"></div>
+    </div>
+    <div class="canvas-footer">
+      <span id="hint">Ziehen: drehen · Zwei Finger: zoomen · Antippen: erklären</span>
+      <div class="footer-tools">
+        <button id="snapshot" class="quiet" title="Bild speichern (B)">⤓ Bild</button>
+        <button id="insta" class="quiet" title="Bild im Format 4:5 für soziale Netzwerke">◫ 4:5-Bild</button>
+        <button id="rotate" class="quiet" aria-pressed="false">↻ Drehen</button>
+      </div>
+    </div>
+  </section>
+
+  <aside id="detail" class="detail panel" aria-label="Erklärung">
+    <div class="detail-top"><span class="eyebrow" id="detail-eyebrow">ZELLBIOLOGIE</span><span class="detail-tools"><button id="share" class="quiet" title="Link zu dieser Ansicht teilen">⤴ Teilen</button></span></div>
+    <i id="detail-term" class="term"></i>
+    <h1 id="detail-title">CELLULA</h1>
+    <p id="detail-meta" class="muted small"></p>
+    <div class="detail-tabs" role="tablist" aria-label="Informationen">
+      <button role="tab" aria-selected="true" data-tab="text">Erklärung</button>
+      <button role="tab" aria-selected="false" data-tab="facts">Kernwissen</button>
+      <button role="tab" aria-selected="false" data-tab="sources">Quellen</button>
+      <button role="tab" aria-selected="false" data-tab="notes">Notizen</button>
+    </div>
+    <div id="detail-content" role="tabpanel"></div>
+  </aside>
+</main>
+<footer class="app-footer"><span>CELLULA <span class="muted">/</span> ATLAS 02 · DGKN@LABS</span><span>Im Browser. Ohne Konto. Ohne Tracking.</span><span>ZELLEN · PROZESSE · MOLEKÜLE</span></footer>
+<dialog id="modal"><div class="modal-head"><span class="eyebrow">CELLULA · QUELLEN &amp; HINWEISE</span><button id="close-modal" class="icon-button" aria-label="Fenster schließen">×</button></div><div id="modal-content"></div></dialog>
+<div id="toast" role="status" hidden></div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
+
