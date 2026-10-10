@@ -29,3 +29,4 @@ jobs:
           name: CELLULA-product-gallery
           path: gallery-results/
           if-no-files-found: ignore
+          retention-days: 1
